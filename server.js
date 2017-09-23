@@ -38,8 +38,14 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-// Database configuration with mongoose
-mongoose.connect("mongodb://localhost/scraper");
+// Define local Mongo URI
+var databaseUri = 'mongodb://localhost/scraper';
+// mongoose.connect("mongodb://localhost/scraper"); heroku_qgd2grh4
+if (process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI);
+} else {
+    mongoose.connect(databaseUri);
+}
 var db = mongoose.connection;
 
 // Show any mongoose errors
